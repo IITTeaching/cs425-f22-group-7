@@ -16,6 +16,10 @@ create schema if not exists employee{
     employee_type varchar(255),
     primary key (SSN),
     };
+
+Alter Table employee
+    Add Constraint salary Check ( salary >= 0 );
+
 create schema if not exists account_type{
     type_name varchar(255),
     interest_rate int(10),
