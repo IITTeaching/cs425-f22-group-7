@@ -1,7 +1,7 @@
 create schema if not exists customer{
     customer_name varchar(255),
     address varchar(255),
-    home_branch varchar(255),
+    home_branch varchar(255) NOT NULL,
     primary key (customer_name,home_branch),
     foreign key (home_branch) references bank
     };

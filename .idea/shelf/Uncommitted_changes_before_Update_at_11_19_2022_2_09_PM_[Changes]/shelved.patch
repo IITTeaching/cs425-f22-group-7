@@ -1,0 +1,149 @@
+Index: FinalSchema.sql
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/FinalSchema.sql b/FinalSchema.sql
+--- a/FinalSchema.sql	
++++ b/FinalSchema.sql	
+@@ -17,11 +17,29 @@
+     primary key (SSN),
+     };
+ create schema if not exists account_type{
+-
++    type_name varchar(255),
++    interest_rate int(10),
++    monthly_fees int(10),
++    overdraft_allowed bool,
++    overdraft_fee int(10),
++    primary key (type_name)
+     };
+ create schema if not exists account{
+-
++    customer_name varchar(255),
++    account_type varchar(255),
++    balance_curr int(10),
++    account_id int(10),
++    primary key (account_id),
++    foreign key (account_id) references account_type
+     };
+ create schema if not exists transaction{
+-
++    type varchar(255),
++    quantity int(10),
++    description varchar(255),
++    transaction_date date,
++    account_from int(10),
++    account_to int(10),
++    status bool,
++    primary key (transaction_date, account_from, account_to),
++    foreign key (account_from, account_to) references account
+     };
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+new file mode 100644
+--- /dev/null	
++++ b/.idea/misc.xml	
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="ProjectRootManager" version="2" project-jdk-name="17" project-jdk-type="JavaSDK">
++    <output url="file://$PROJECT_DIR$/out" />
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/.gitignore b/.idea/.gitignore
+new file mode 100644
+--- /dev/null	
++++ b/.idea/.gitignore	
+@@ -0,0 +1,3 @@
++# Default ignored files
++/shelf/
++/workspace.xml
+Index: .idea/modules.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/modules.xml b/.idea/modules.xml
+new file mode 100644
+--- /dev/null	
++++ b/.idea/modules.xml	
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="ProjectModuleManager">
++    <modules>
++      <module fileurl="file://$PROJECT_DIR$/cs425-f22-group-7.iml" filepath="$PROJECT_DIR$/cs425-f22-group-7.iml" />
++    </modules>
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/libraries/postgresql_42_5_0.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/libraries/postgresql_42_5_0.xml b/.idea/libraries/postgresql_42_5_0.xml
+new file mode 100644
+--- /dev/null	
++++ b/.idea/libraries/postgresql_42_5_0.xml	
+@@ -0,0 +1,9 @@
++<component name="libraryTable">
++  <library name="postgresql-42.5.0">
++    <CLASSES>
++      <root url="jar://$PROJECT_DIR$/postgresql-42.5.0.jar!/" />
++    </CLASSES>
++    <JAVADOC />
++    <SOURCES />
++  </library>
++</component>
+\ No newline at end of file
+Index: .idea/vcs.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/vcs.xml b/.idea/vcs.xml
+new file mode 100644
+--- /dev/null	
++++ b/.idea/vcs.xml	
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="VcsDirectoryMappings">
++    <mapping directory="" vcs="Git" />
++  </component>
++</project>
+\ No newline at end of file
+Index: cs425-f22-group-7.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/cs425-f22-group-7.iml b/cs425-f22-group-7.iml
+new file mode 100644
+--- /dev/null	
++++ b/cs425-f22-group-7.iml	
+@@ -0,0 +1,11 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<module type="JAVA_MODULE" version="4">
++  <component name="NewModuleRootManager" inherit-compiler-output="true">
++    <exclude-output />
++    <content url="file://$MODULE_DIR$">
++      <sourceFolder url="file://$MODULE_DIR$/CS425FinalCode/src" isTestSource="false" />
++    </content>
++    <orderEntry type="inheritedJdk" />
++    <orderEntry type="sourceFolder" forTests="false" />
++  </component>
++</module>
+\ No newline at end of file

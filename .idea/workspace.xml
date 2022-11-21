@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="2092a1fc-5ecd-44bb-9ed3-d158afbaeba0" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/FinalSchema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/FinalSchema.sql" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="John Stock &lt;jmks1000@gmail.com&gt;" />
+      </list>
+    </option>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GithubDefaultAccount">
+    <option name="defaultAccountId" value="10c1e1ec-7d38-4647-82ce-65ff4fb600f6" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2HmHfpKHIsy2h1J72n3TjVv079j" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.github.ui.GithubSettingsConfigurable&quot;
+  }
+}</component>
+  <component name="Push.Settings">
+    <force-push-targets>
+      <force-push-target remote-path="origin" branch="main" />
+    </force-push-targets>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2092a1fc-5ecd-44bb-9ed3-d158afbaeba0" name="Changes" comment="" />
+      <created>1668883446878</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1668883446878</updated>
+    </task>
+    <task id="LOCAL-00001" summary="created remaining schema framework. ready for code review.">
+      <created>1668885565663</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1668885565663</updated>
+    </task>
+    <task id="LOCAL-00002" summary="created remaining schema framework. ready for code review.">
+      <created>1668885636782</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1668885636782</updated>
+    </task>
+    <task id="LOCAL-00003" summary="created remaining schema framework. ready for code review.">
+      <created>1668887688663</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1668887688663</updated>
+    </task>
+    <task id="LOCAL-00004" summary="created remaining schema framework. ready for code review.">
+      <created>1668887719677</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1668887719677</updated>
+    </task>
+    <task id="LOCAL-00005" summary="created remaining schema framework. ready for code review.">
+      <created>1668887788628</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1668887788628</updated>
+    </task>
+    <task id="LOCAL-00006" summary="created remaining schema framework. ready for code review.">
+      <created>1668888038970</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1668888038970</updated>
+    </task>
+    <task id="LOCAL-00007" summary="created remaining schema framework. ready for code review.">
+      <created>1668888080343</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1668888080343</updated>
+    </task>
+    <task id="LOCAL-00008" summary="created remaining schema framework. ready for code review.">
+      <created>1668888170253</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1668888170253</updated>
+    </task>
+    <task id="LOCAL-00009" summary="created remaining schema framework. ready for code review.">
+      <created>1668888240519</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1668888240519</updated>
+    </task>
+    <task id="LOCAL-00010" summary="created remaining schema framework. ready for code review.">
+      <created>1668888388878</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1668888388878</updated>
+    </task>
+    <task id="LOCAL-00011" summary="created remaining schema framework. ready for code review.">
+      <created>1668888964308</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1668888964308</updated>
+    </task>
+    <task id="LOCAL-00012" summary="created remaining schema framework. ready for code review.">
+      <created>1668890003816</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1668890003816</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="created remaining schema framework. ready for code review." />
+    <option name="LAST_COMMIT_MESSAGE" value="created remaining schema framework. ready for code review." />
+  </component>
+</project>
