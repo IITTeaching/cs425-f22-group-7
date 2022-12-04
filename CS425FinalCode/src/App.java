@@ -2,7 +2,8 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import
+import java.sql.Statement;
+
 
 public class App {
     private String url;
@@ -23,6 +24,8 @@ public class App {
         this.password = password;
     }
 
+
+    //this is an example that pass sql statement to sql server
     public void connect(){
         try{
             if (url == null && username == null && password == null){
@@ -30,6 +33,11 @@ public class App {
             }
             try{
                 conn = DriverManager.getConnection(url,username,password);
+                Statement statement = conn.createStatement();
+                String sql = "";//sql language
+                //<type> <var> = statement.execute(sql);
+                //result as a set can use ResultSet to store
+
             }catch (SQLException s){
                 System.out.println(s.getMessage());
             }
