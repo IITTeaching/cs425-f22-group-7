@@ -16,10 +16,10 @@ public class main {
         int acc_id = 0; //current account
         int action = -1;
         App app = new App();
-        ResultSet result;
+        ResultSet result = null;
         String withdrawlTrans ;
         String alterAccount;
-        int remove;
+        int remove = 0;
         int to_Remove_From;
 
         System.out.println("Welcome to CS425-7 Final Project SQL");
@@ -198,29 +198,31 @@ public class main {
                         String alterAccount1;
                         String alterAccount2;
                         int transBal;
-                        int transferFrom;
-                        int transferTo;
+                        String transferFrom = "";
+                        String transferTo = "";
+                        int transferFrom_id = 0;
+                        int transferTo_id = 0;
 
                         if (usertype == "manager" || usertype == "teller"){
 
                             System.out.println("Please enter an account ID to transfer to: ");
-                            transferFrom = scan.nextInt();
+                            transferFrom_id = scan.nextInt();
 
 
                             System.out.println("Please enter an account ID to transfer from: ");
-                            transferTo = scan.nextInt();
+                            transferTo_id = scan.nextInt();
 
 
                             System.out.println("Please enter a transfer ammount: ");
                             transBal = scan.nextInt();
 
-                            transferTrans = "insert into transaction (type, quantity, description, transaction_date, account_from, account_to, status, Values ('Transfer', " + remove + ", 'Transfer from " + transferFrom + " to " + transferTo + " of quantity" + transBal + "', now(), "+transferFrom+", " + transferTo + ", '0');";
-//data type is incorrect
-                            //transferFrom = "Update account" + "set balance_curr = balance_curr - " + transBal + "" + "where account_id = " + transferFrom + ";";
-                            //transferTo = "Update account" + "set balance_curr = balance_curr + " + transBal + "" + "where account_id = " + transferTo + ";";
+                            transferTrans = "insert into transaction (type, quantity, description, transaction_date, account_from, account_to, status, Values ('Transfer', " + remove + ", 'Transfer from " + transferFrom_id + " to " + transferTo_id + " of quantity" + transBal + "', now(), "+transferFrom+", " + transferTo + ", '0');";
+
+                            transferFrom = "Update account" + "set balance_curr = balance_curr - " + transBal + "" + "where account_id = " + transferFrom_id + ";";
+                            transferTo = "Update account" + "set balance_curr = balance_curr + " + transBal + "" + "where account_id = " + transferTo_id + ";";
                             app.executeSQL(transferTrans);
-                            //app.executeSQL(transferFrom);
-                            //app.executeSQL(transferTo);
+                            app.executeSQL(transferFrom);
+                            app.executeSQL(transferTo);
                                 //SQL to create the needed transaction entry, and change the account balances involved.
 
                         }
@@ -232,12 +234,12 @@ public class main {
                             transBal = scan.nextInt();
 
                             transferTrans = "insert into transaction (type, quantity, description, transaction_date, account_from, account_to, status, Values ('Transfer', " + remove + ", 'Transfer from " + acc_id + " to " + transferTo + " of quantity" + transBal + "', now(), "+acc_id+", " + transferTo + ", '0');";
-//data type is incorrect
-                            //transferFrom = "Update account" + "set balance_curr = balance_curr - " + transBal + "" + "where account_id = " + transferFrom + ";";
-                            //transferTo = "Update account" + "set balance_curr = balance_curr + " + transBal + "" + "where account_id = " + transferTo + ";";
+
+                            transferFrom = "Update account" + "set balance_curr = balance_curr - " + transBal + "" + "where account_id = " + transferFrom_id + ";";
+                            transferTo = "Update account" + "set balance_curr = balance_curr + " + transBal + "" + "where account_id = " + transferTo_id + ";";
                             app.executeSQL(transferTrans);
-                            //app.executeSQL(transferFrom);
-                            //app.executeSQL(transferTo);
+                            app.executeSQL(transferFrom);
+                            app.executeSQL(transferTo);
                                 //SQL to create the needed transaction entry, and change the account balances involved.
                             //the account from is known by the login
                         }
@@ -339,7 +341,7 @@ public class main {
 
 
 
-        
+
 
     }
 }
