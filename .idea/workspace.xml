@@ -4,8 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2092a1fc-5ecd-44bb-9ed3-d158afbaeba0" name="Changes" comment="">
+    <list default="true" id="2092a1fc-5ecd-44bb-9ed3-d158afbaeba0" name="Changes" comment="created remaining schema framework. ready for code review.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CS425FinalCode/src/main.java" beforeDir="false" afterPath="$PROJECT_DIR$/CS425FinalCode/src/main.java" afterDir="false" />
+    </list>
+    <list id="0f4d9ff5-1442-4de4-8500-a0a797607445" name="Changes by jcmbp" comment="">
+      <change beforePath="$PROJECT_DIR$/CS425FinalCode/src/main.java" beforeDir="false" afterPath="$PROJECT_DIR$/CS425FinalCode/src/main.java" afterDir="false" />
+    </list>
+    <list id="aab4fbab-7655-4995-adff-f05273580332" name="Changes by John" comment="">
+      <change beforePath="$PROJECT_DIR$/CS425FinalCode/src/main.java" beforeDir="false" afterPath="$PROJECT_DIR$/CS425FinalCode/src/main.java" afterDir="false" />
+    </list>
+    <list id="2aba3301-2c18-4384-9267-6d630c46d6b5" name="Changes by luke" comment="">
       <change beforePath="$PROJECT_DIR$/CS425FinalCode/src/main.java" beforeDir="false" afterPath="$PROJECT_DIR$/CS425FinalCode/src/main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -26,8 +35,32 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GithubDefaultAccount">
-    <option name="defaultAccountId" value="10c1e1ec-7d38-4647-82ce-65ff4fb600f6" />
+  <component name="LineStatusTrackerManager">
+    <file path="$PROJECT_DIR$/CS425FinalCode/src/main.java">
+      <ranges>
+        <range start1="6" end1="6" start2="6" end2="8" changelist="aab4fbab-7655-4995-adff-f05273580332" />
+        <range start1="13" end1="13" start2="15" end2="16" changelist="2092a1fc-5ecd-44bb-9ed3-d158afbaeba0" />
+        <range start1="14" end1="14" start2="17" end2="19" changelist="0f4d9ff5-1442-4de4-8500-a0a797607445" />
+        <range start1="15" end1="15" start2="20" end2="21" changelist="2092a1fc-5ecd-44bb-9ed3-d158afbaeba0" />
+        <range start1="33" end1="33" start2="39" end2="65" changelist="2092a1fc-5ecd-44bb-9ed3-d158afbaeba0" />
+        <range start1="34" end1="38" start2="66" end2="66" changelist="2092a1fc-5ecd-44bb-9ed3-d158afbaeba0" />
+        <range start1="40" end1="40" start2="68" end2="70" changelist="2092a1fc-5ecd-44bb-9ed3-d158afbaeba0" />
+        <range start1="46" end1="46" start2="76" end2="80" changelist="0f4d9ff5-1442-4de4-8500-a0a797607445" />
+        <range start1="47" end1="48" start2="81" end2="90" changelist="0f4d9ff5-1442-4de4-8500-a0a797607445" />
+        <range start1="50" end1="51" start2="92" end2="93" changelist="0f4d9ff5-1442-4de4-8500-a0a797607445" />
+        <range start1="52" end1="53" start2="94" end2="95" changelist="0f4d9ff5-1442-4de4-8500-a0a797607445" />
+        <range start1="60" end1="60" start2="102" end2="105" changelist="0f4d9ff5-1442-4de4-8500-a0a797607445" />
+        <range start1="61" end1="62" start2="106" end2="107" changelist="0f4d9ff5-1442-4de4-8500-a0a797607445" />
+        <range start1="68" end1="68" start2="113" end2="119" changelist="aab4fbab-7655-4995-adff-f05273580332" />
+        <range start1="74" end1="76" start2="125" end2="128" changelist="aab4fbab-7655-4995-adff-f05273580332" />
+        <range start1="78" end1="78" start2="130" end2="132" changelist="aab4fbab-7655-4995-adff-f05273580332" />
+        <range start1="80" end1="80" start2="134" end2="178" changelist="aab4fbab-7655-4995-adff-f05273580332" />
+        <range start1="82" end1="82" start2="180" end2="200" changelist="2aba3301-2c18-4384-9267-6d630c46d6b5" />
+        <range start1="83" end1="84" start2="201" end2="224" changelist="2aba3301-2c18-4384-9267-6d630c46d6b5" />
+        <range start1="85" end1="85" start2="225" end2="257" changelist="2aba3301-2c18-4384-9267-6d630c46d6b5" />
+        <range start1="87" end1="88" start2="259" end2="261" changelist="2aba3301-2c18-4384-9267-6d630c46d6b5" />
+      </ranges>
+    </file>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -37,19 +70,41 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.github.ui.GithubSettingsConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="Push.Settings">
     <force-push-targets>
       <force-push-target remote-path="origin" branch="main" />
     </force-push-targets>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="cs425-f22-group-7" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="cs425-f22-group-7" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -59,6 +114,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1668883446878</updated>
+      <workItem from="1670359322532" duration="174000" />
+      <workItem from="1670375911539" duration="6492000" />
     </task>
     <task id="LOCAL-00001" summary="created remaining schema framework. ready for code review.">
       <created>1668885565663</created>
@@ -146,6 +203,9 @@
     </task>
     <option name="localTasksCounter" value="13" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">

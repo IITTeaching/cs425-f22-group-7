@@ -11,8 +11,10 @@ public class main {
         String username = null;
         String password = null;
         String usertype = null;
+        String userrole = null;
         boolean loginFlag = true;
         int action = -1;
+        App app = new App();
         System.out.println("Welcome to CS425-7 Final Project SQL");
         //while?
         while(loginFlag) {
@@ -31,13 +33,32 @@ public class main {
                 System.out.println(e.getMessage());
                 System.out.println("Please try again\n");
             }
+            try{
+                //String sql = "Select username, password IF customer_name ="+username+" password = "+password+"   FROM customer, employee";
+                String sql = "Select customer_name, passcode FROM customer where customer_name="+username+" and passcode="+password+;
+                ResultSet result = app.executeSQL(sql);
+                if (!result.next()){
+                    //if not customer check employee
+                    String sql = "Select employee_name, password IF(employee_name =" +username+", (employee_name, password), 0) FROM employee"
+                    ResultSet result = app.executeSQL(sql);
+                    if (result.getString("employee_name")==null){
+                        throw new SQLException("User does not exist");
+                    }else{
+                        userrole = result.getSting("employee_t")
+                    }
+                }else{
+                    userrole = "customer";
+                    loginFlag = false;
+                }
+            }catch (SQLException s){
+                System.out.println(s.getMessage());
+                System.out.println("Please try again\n");
+            }
 
-            //sql
-            //pass to sql to check if exist
-            //if do return type and loginFlag = false
-            //if not return false and catch by exception
 
 
+            //SELECT OrderID, Quantity, IF(Quantity>10, "MORE", "LESS")
+            //FROM OrderDetails;
         }
 
 
