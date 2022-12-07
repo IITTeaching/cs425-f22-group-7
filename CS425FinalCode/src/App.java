@@ -8,6 +8,8 @@ public class App {
     private String password = "1989830";
     private Connection conn;
 
+    App(){
+    }
     public App(String url,String username,String password){
         this.url = url;
         this.username = username;
