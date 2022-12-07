@@ -36,6 +36,8 @@ public class main {
             //pass to sql to check if exist
             //if do return type and loginFlag = false
             //if not return false and catch by exception
+
+
         }
 
 
@@ -64,12 +66,33 @@ public class main {
         }
 
         //action
-        switch(action){
-            //cases 1,2,3,4,5,9,0
-            case 1:
-                //sql for account and update database
-        }
+        while(true) {
+            try {
+                action = scan.nextInt();
+                switch (action) {
+                    //cases 1,2,3,4,5,9,0
+                    case 1:
+                        //withdrawal
+                        //sql for account and update database
+                    case 2:
+                        //deposit
+                    case 3:
+                        //transfer
+                    case 4:
+                        //check balance
+                    case 5:
+                        //
+                    case 9:
 
+                    case 0:
+
+                    default:
+                        throw new Exception("Invalid input, Please try again");
+                }
+            }catch(Exception e){
+                System.out.println(e.getMessage());
+            }
+        }
 
 
 
