@@ -139,7 +139,7 @@ public class main {
                     //cases 1,2,3,4,5,9,0
                     case 1: //withdrawal
                         if (usertype == "customer") {
-                            System.out.println("Please enter an ammount to withdrawl ");
+                            System.out.println("Please enter an amount to withdrawal ");
                             remove = scan.nextInt();
                             withdrawlTrans = "insert into transaction (type, quantity, description, transaction_date, account_from, account_to, status) " +
                                     "Values ('Withdrawal', " + remove + ", 'Withdrawal of " + remove + " from " + acc_id + "', now(), " + acc_id + ", NULL, '0');";
@@ -148,15 +148,15 @@ public class main {
                             //additionally, alter the account table with this list to update the balance
                         }
                         else{
-                            System.out.println("Please enter an account ID to withdrawl from ");
+                            System.out.println("Please enter an account ID to withdrawal from ");
                             to_Remove_From = scan.nextInt();
 
-                            System.out.println("Please enter an ammount to withdrawl ");
+                            System.out.println("Please enter an amount to withdrawal ");
                             remove = scan.nextInt();
 
-                            withdrawlTrans = "insert into transaction (type, quantity, description, transaction_date, account_from, account_to, status, Values ('Withdrawl', " + remove + ", 'Withdrawl of " + remove + " from " + to_Remove_From + "', now(), " + to_Remove_From + ", NULL, '0');";
+                            withdrawlTrans = "insert into transaction (type, quantity, description, transaction_date, account_from, account_to, status, Values ('Withdrawal', " + remove + ", 'Withdrawl of " + remove + " from " + to_Remove_From + "', now(), " + to_Remove_From + ", NULL, '0');";
                             alterAccount = "Update account" + "set balance_curr = balance_curr - " + remove + "" + "where account_id = " + to_Remove_From + ";";
-                            //SQL to add a new entry to transaction list with the acc_Id and the ammount in the correct columns
+                            //SQL to add a new entry to transaction list with the acc_Id and the amount in the correct columns
                             //additionally, alter the account table with this list to update the balance
                         }
                         app.executeSQL(withdrawlTrans);
@@ -165,7 +165,7 @@ public class main {
                     case 2:
                         //deposit
                         if (usertype == "customer") {
-                            System.out.println("Please enter an ammount to deposit ");
+                            System.out.println("Please enter an amount to deposit ");
                             remove = scan.nextInt();
 
                             withdrawlTrans = "insert into transaction (type, quantity, description, transaction_date, account_from, account_to, status, Values ('Deposit', " + remove + ", 'Deposit of " + remove + " from " + acc_id + "', now(), NULL, " + acc_id + ", '0');";
@@ -182,14 +182,14 @@ public class main {
 
                             withdrawlTrans = "insert into transaction (type, quantity, description, transaction_date, account_from, account_to, status, Values ('Deposit', " + remove + ", 'Deposit of " + remove + " from " + to_Remove_From + "', now(), NULL, " + acc_id + ", '0');";
                             alterAccount = "Update account" + "set balance_curr = balance_curr + " + remove + "" + "where account_id = " + to_Remove_From + ";";
-                            //SQL to add a new entry to transaction list with the acc_Id and the ammount in the correct columns
+                            //SQL to add a new entry to transaction list with the acc_Id and the amount in the correct columns
                             //additionally, alter the account table with this list to update the balance
                         }
                         app.executeSQL(withdrawlTrans);
                         app.executeSQL(alterAccount);
                         break;
 
-                        //SQL to add a new entry to transaction list with the acc_Id and the ammount in the correct columns
+                        //SQL to add a new entry to transaction list with the acc_Id and the amount in the correct columns
                         //additionally, alter the account table with this list to update the balance
                     case 3:
                         //transfer
@@ -213,32 +213,30 @@ public class main {
                             transferTo_id = scan.nextInt();
 
 
-                            System.out.println("Please enter a transfer ammount: ");
+                            System.out.println("Please enter a transfer amount: ");
                             transBal = scan.nextInt();
 
                             transferTrans = "insert into transaction (type, quantity, description, transaction_date, account_from, account_to, status, Values ('Transfer', " + remove + ", 'Transfer from " + transferFrom_id + " to " + transferTo_id + " of quantity" + transBal + "', now(), "+transferFrom+", " + transferTo + ", '0');";
-
-                            transferFrom = "Update account" + "set balance_curr = balance_curr - " + transBal + "" + "where account_id = " + transferFrom_id + ";";
-                            transferTo = "Update account" + "set balance_curr = balance_curr + " + transBal + "" + "where account_id = " + transferTo_id + ";";
                             app.executeSQL(transferTrans);
+                            transferFrom = "Update account" + "set balance_curr = balance_curr - " + transBal + "" + "where account_id = " + transferFrom_id + ";";
                             app.executeSQL(transferFrom);
+                            transferTo = "Update account" + "set balance_curr = balance_curr + " + transBal + "" + "where account_id = " + transferTo_id + ";";
                             app.executeSQL(transferTo);
                                 //SQL to create the needed transaction entry, and change the account balances involved.
 
                         }
                         else {
                             System.out.println("Please enter an account ID to transfer to: ");
-                            transferFrom = scan.nextInt();
+                            transferFrom_id = scan.nextInt();
 
                             System.out.println("Please enter a transfer amount: ");
                             transBal = scan.nextInt();
 
                             transferTrans = "insert into transaction (type, quantity, description, transaction_date, account_from, account_to, status, Values ('Transfer', " + remove + ", 'Transfer from " + acc_id + " to " + transferTo + " of quantity" + transBal + "', now(), "+acc_id+", " + transferTo + ", '0');";
-
-                            transferFrom = "Update account" + "set balance_curr = balance_curr - " + transBal + "" + "where account_id = " + transferFrom_id + ";";
-                            transferTo = "Update account" + "set balance_curr = balance_curr + " + transBal + "" + "where account_id = " + transferTo_id + ";";
                             app.executeSQL(transferTrans);
+                            transferFrom = "Update account" + "set balance_curr = balance_curr - " + transBal + "" + "where account_id = " + transferFrom_id + ";";
                             app.executeSQL(transferFrom);
+                            transferTo = "Update account" + "set balance_curr = balance_curr + " + transBal + "" + "where account_id = " + transferTo_id + ";";
                             app.executeSQL(transferTo);
                                 //SQL to create the needed transaction entry, and change the account balances involved.
                             //the account from is known by the login
