@@ -82,8 +82,9 @@ public class main {
             for (int i = 0;i<account_id.length;i++){
                 System.out.println(int(i+1)+". "+account_id[i]);
             }
-            System.out.print
-            acc_id = scan.nextInt();
+            System.out.println("Select the account that you want to modify with: ");
+            int userselect = scan.nextInt();
+            acc_id = Interger.parseInt(account_id[userselect-1]);
             scan.nextline();
         }
 
