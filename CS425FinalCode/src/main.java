@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+
 
 public class main {
     public static void main(String[] args) {
@@ -112,18 +114,71 @@ public class main {
         }
 
         //action
+        //This section assumes that the program already has a verified account Id logged in with the user.
+        //If a customer, then, you should already have been vetted to ensure its an account you really have access to
+
+
+
+
         while(true) {
             try {
                 action = scan.nextInt();
                 switch (action) {
                     //cases 1,2,3,4,5,9,0
                     case 1:
-                        //withdrawal
-                        //sql for account and update database
+                        //withdrawl
+                        //SQL to add a new entry to transaction list with the acc_Id and the ammount in the correct columns
+                        //additionally, alter the account table with this list to update the balance
                     case 2:
                         //deposit
+                        //SQL to add a new entry to transaction list with the acc_Id and the ammount in the correct columns
+                        //additionally, alter the account table with this list to update the balance
                     case 3:
                         //transfer
+                        //sql for account and update database
+
+                        if (usertype == "manager" || usertype == "teller"){
+
+                            ArrayList<Integer> valid_Ids = new ArrayList<Integer>();
+                            //SQL to obtain a list of acceptable account ID's, put as a list into valid_Ids
+
+                            System.out.println("Please enter an account ID to transfer to: ");
+                            int acc_to_Id = scan.nextInt();
+
+                            if !(valid_Ids.contains(acc_to_Id)) { //if the id given isnt a legit id, then break the switch
+                                break;
+                            }
+
+                            System.out.println("Please enter an account ID to transfer from: ");
+                            int acc_from_id = scan.nextInt();
+
+                            if !(valid_Ids.contains(acc_from_Id)){ //same check as above for the acc_to_Id
+                                break
+                            }
+
+                            System.out.println("Please enter a transfer ammount: ");
+                            int trans_Ammount = scan.nextInt();
+
+                            //SQL to create the needed transaction entry, and change the account balances involved.
+
+                        }
+                        else {
+                            System.out.println("Please enter an account ID to transfer to: ");
+                            int acc_to_Id = scan.nextInt();
+
+                            if !(valid_Ids.contains(acc_to_Id)) { //if the id given isnt a legit id, then break the switch
+                                break;
+                            }
+
+                            System.out.println("Please enter a transfer ammount: ");
+                            int trans_Ammount = scan.nextInt();
+
+                            //SQL to create the needed transaction entry, and change the account balances involved.
+                            //the account from is known by the login
+                        }
+
+
+
                     case 4:
                         //check balance
                     case 5:
