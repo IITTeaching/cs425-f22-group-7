@@ -17,10 +17,10 @@ public class main {
         int action = -1;
         App app = new App();
         ResultSet result;
-        String withdrawlTrans = Null;
-        String alterAccount = Null;
-        int remove = Null;
-        int to_Remove_From = Null;
+        String withdrawlTrans ;
+        String alterAccount;
+        int remove;
+        int to_Remove_From;
 
         System.out.println("Welcome to CS425-7 Final Project SQL");
         while(loginFlag) {
@@ -41,16 +41,16 @@ public class main {
             }
             try{
                 //String sql = "Select username, password IF customer_name ="+username+" password = "+password+"   FROM customer, employee";
-                String sql = "Select customer_name, passcode FROM customer where customer_name="+username+" and passcode="+password+;
+                String sql = "Select customer_name, passcode FROM customer where customer_name="+username+" and passcode="+password+";";
                 result = app.executeSQL(sql);
                 if (!((ResultSet) result).next()){
                     //if not customer check employee
-                    String sql = "Select employee_name, password IF(employee_name =" +username+", (employee_name, password), 0) FROM employee"
+                    sql = "Select employee_name, password IF(employee_name =" +username+", (employee_name, password), 0) FROM employee";
                     result = app.executeSQL(sql);
                     if (result.getString("employee_name")==null){
                         throw new SQLException("User does not exist");
                     }else{
-                        userrole = result.getSting("employee_type");
+                        userrole = result.getString("employee_type");
                         loginFlag = false;
 
                     }
@@ -80,15 +80,25 @@ public class main {
             //get all the current user account number and display
 
             int i = 0;
-            while (result.next()) {
-                account_id[i] = result.getString("account_id");
+            while (true) {
+                try {
+                    if (!result.next()) break;
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+                try {
+                    account_id[i] = Integer.parseInt(result.getString("account_id"));
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             }
-            for (int i = 0;i<account_id.length;i++){
-                System.out.println(int(i+1)+". "+account_id[i]);
+            for (int x = 0;x<account_id.length;x++){
+                int temp = x+1;
+                System.out.println(temp+". "+account_id[x]);
             }
             System.out.println("Select the account that you want to modify with: ");
             int userselect = scan.nextInt();
-            acc_id = Interger.parseInt(account_id[userselect-1]);
+            acc_id = account_id[userselect-1];
             scan.nextLine();
         }
 
@@ -184,12 +194,12 @@ public class main {
                     case 3:
                         //transfer
                         //sql for account and update database
-                        String transferTrans = Null;
-                        String alterAccount1 = Null;
-                        String alterAccount2 = Null;
-                        int transBal = Null;
-                        int transferFrom = Null;
-                        int transferTo = Null;
+                        String transferTrans;
+                        String alterAccount1;
+                        String alterAccount2;
+                        int transBal;
+                        int transferFrom;
+                        int transferTo;
 
                         if (usertype == "manager" || usertype == "teller"){
 
@@ -206,12 +216,12 @@ public class main {
 
                             transferTrans = "insert into transaction (type, quantity, description, transaction_date, account_from, account_to, status, Values ('Transfer', " + remove + ", 'Transfer from " + transferFrom + " to " + transferTo + " of quantity" + transBal + "', now(), "+transferFrom+", " + transferTo + ", '0');";
 //data type is incorrect
-                            transferFrom = "Update account" + "set balance_curr = balance_curr - " + transBal + "" + "where account_id = " + transferFrom + ";";
-                            transferTo = "Update account" + "set balance_curr = balance_curr + " + transBal + "" + "where account_id = " + transferTo + ";";
+                            //transferFrom = "Update account" + "set balance_curr = balance_curr - " + transBal + "" + "where account_id = " + transferFrom + ";";
+                            //transferTo = "Update account" + "set balance_curr = balance_curr + " + transBal + "" + "where account_id = " + transferTo + ";";
                             app.executeSQL(transferTrans);
-                            app.executeSQL(transferFrom);
-                            app.executeSQL(transferTo);
-                            //SQL to create the needed transaction entry, and change the account balances involved.
+                            //app.executeSQL(transferFrom);
+                            //app.executeSQL(transferTo);
+                                //SQL to create the needed transaction entry, and change the account balances involved.
 
                         }
                         else {
@@ -223,12 +233,12 @@ public class main {
 
                             transferTrans = "insert into transaction (type, quantity, description, transaction_date, account_from, account_to, status, Values ('Transfer', " + remove + ", 'Transfer from " + acc_id + " to " + transferTo + " of quantity" + transBal + "', now(), "+acc_id+", " + transferTo + ", '0');";
 //data type is incorrect
-                            transferFrom = "Update account" + "set balance_curr = balance_curr - " + transBal + "" + "where account_id = " + transferFrom + ";";
-                            transferTo = "Update account" + "set balance_curr = balance_curr + " + transBal + "" + "where account_id = " + transferTo + ";";
+                            //transferFrom = "Update account" + "set balance_curr = balance_curr - " + transBal + "" + "where account_id = " + transferFrom + ";";
+                            //transferTo = "Update account" + "set balance_curr = balance_curr + " + transBal + "" + "where account_id = " + transferTo + ";";
                             app.executeSQL(transferTrans);
-                            app.executeSQL(transferFrom);
-                            app.executeSQL(transferTo);
-                            //SQL to create the needed transaction entry, and change the account balances involved.
+                            //app.executeSQL(transferFrom);
+                            //app.executeSQL(transferTo);
+                                //SQL to create the needed transaction entry, and change the account balances involved.
                             //the account from is known by the login
                         }
 
@@ -243,7 +253,7 @@ public class main {
 
                             ArrayList<Integer> ids = new ArrayList<Integer>();
                             if (ids.contains(acc_Id)) {
-                                System.out.print( // amount // );
+                                /*amount*/ System.out.println();
                             }
 
                         }
@@ -252,7 +262,7 @@ public class main {
                             //print that result to screen
                         }
                         else {
-                            System.out.printLn("Permission Denied");
+                            System.out.println("Permission Denied");
                         }
 
 
@@ -266,7 +276,7 @@ public class main {
                             int acc_to_Id = scan.nextInt();
 
 
-                            if !(valid_Billing_Ids.contains(acc_to_Id)) { //if the id given isnt a legit id, then break the switch
+                            if(!(valid_Billing_Ids.contains(acc_to_Id))) { //if the id given isnt a legit id, then break the switch
                                 break;
                             }
 
@@ -289,11 +299,11 @@ public class main {
                         System.out.println("Please enter an account ID: ");
                         int acc_Id = scan.nextInt();
 
-                        if !(valid_Ids.contains(acc_to_Id)) { //if the id given isnt a legit id, then break the switch
+                        if(!(valid_Ids.contains(acc_to_Id)))  { //if the id given isnt a legit id, then break the switch
                         break;
                         }
 
-                        System.out.println("Please enter an account ID to switch to "
+                        System.out.println("Please enter an account ID to switch to ");
                         int acc_from_id = scan.nextInt();
 
                         } else if (usertype == "customer") {
