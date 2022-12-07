@@ -13,6 +13,8 @@ public class main {
         String usertype = null;
         String userrole = null;
         boolean loginFlag = true;
+        int[] account_id = null;
+        int acc_id = 0; //current account
         int action = -1;
         App app = new App();
         System.out.println("Welcome to CS425-7 Final Project SQL");
@@ -44,11 +46,14 @@ public class main {
                     if (result.getString("employee_name")==null){
                         throw new SQLException("User does not exist");
                     }else{
-                        userrole = result.getSting("employee_t")
+                        userrole = result.getSting("employee_type");
+                        loginFlag = false;
+
                     }
                 }else{
                     userrole = "customer";
                     loginFlag = false;
+
                 }
             }catch (SQLException s){
                 System.out.println(s.getMessage());
@@ -65,13 +70,29 @@ public class main {
         //coop with sql return
         //java part got the type and output the menu
         //type might be {customer,teller,manager}
+        if (usertype == "customer"){
 
-        //if type is customer, get and display all the account that user want to access currently
+            //SQL
+            //get all the current user account number and display
+
+            int i = 0;
+            while (result.next()) {
+                account_id[i] = result.getString("account_id");
+            }
+            for (int i = 0;i<account_id.length;i++){
+                System.out.println(int(i+1)+". "+account_id[i]);
+            }
+            System.out.print
+            acc_id = scan.nextInt();
+            scan.nextline();
+        }
+
+
         switch (usertype){
             case "customer":
-                String[] customer_menu = {"1. Withdrawal","2. Deposit","3. Transfer","4. Current balance","5. Transaction","9. switch account","0. logout"};
+                String[] customer_menu = {"1. Withdrawal","2. Deposit","3. Transfer","4. Current balance","5. Current Month Transaction","9. switch account","0. logout"};
                 for (int i=0;i<customer_menu.length;i++){
-                    System.out.println(i+". "+customer_menu[i]);
+                    System.out.println(customer_menu[i]);
                 }
                 //scanner that read user input then do the action
 
@@ -79,8 +100,11 @@ public class main {
                 break;
             case "teller":
                 String[] teller_menu = {"1.Withdrawal", "2. Deposit", "3. Transfer","9. switch account","0. logout"};
+                for (int i=0;i<teller_menu.length;i++){
+                    System.out.println(teller_menu[i]);
+                }
             case "manager":
-                String[] manager_menu = {"1. Withdrawal", "2. Deposit", "3. Transfer", "4. Check balance", "5. Transaction","9. switch account","0. logout"};
+                String[] manager_menu = {"1. Withdrawal", "2. Deposit", "3. Transfer", "4. Check balance", "5. Current Month Transaction","9. switch account","0. logout"};
                 for (int i=0;i<manager_menu.length;i++){
                     System.out.println(manager_menu[i]);
                 }
