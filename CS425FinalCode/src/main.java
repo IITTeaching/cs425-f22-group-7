@@ -299,10 +299,6 @@ public class main {
                         System.out.println("Please enter an account ID: ");
                         int acc_Id = scan.nextInt();
 
-                        if(!(valid_Ids.contains(acc_to_Id)))  { //if the id given isnt a legit id, then break the switch
-                        break;
-                        }
-
                         System.out.println("Please enter an account ID to switch to ");
                         int acc_from_id = scan.nextInt();
 
@@ -310,12 +306,13 @@ public class main {
 
                             while (true) {
                                 try {
-                                    for (int i = 0; i < acc; i++) {
+                                    int i = 0;
+                                    for (i = 0; i < account_id.length; i++) {
                                         System.out.println(i + 1 + ". " + account_id[i]);
                                     }
                                     int userinput = scan.nextInt();
                                     scan.nextLine();
-                                    if (i == 0 || i > account_id.length) {
+                                    if (userinput == 0 || userinput > account_id.length) {
                                         throw new Exception("Invalid input, Please try again");
                                     }
                                 } catch (Exception e) {
