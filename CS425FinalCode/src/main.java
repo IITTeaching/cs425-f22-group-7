@@ -181,12 +181,87 @@ public class main {
 
                     case 4:
                         //check balance
+                        //employee
+                        if (usertype == "manager"){
+                            System.out.println("Please enter an account ID: ");
+                            int acc_Id = scan.nextInt();
+
+                            ArrayList<Integer> ids = new ArrayList<Integer>();
+                            if (ids.contains(acc_Id)) {
+                                System.out.print( // amount // );
+                            }
+
+                        }
+                        else if (usertype=="customer"){
+                            //SQL to get balance for the account that is logged in
+                            //print that result to screen
+                        }
+                        else {
+                            System.out.printLn("Permission Denied");
+                        }
+
+
                     case 5:
-                        //
+                        //Get Statement for an account
+                        if (usertype == "manager"){
+                            ArrayList<Integer> valid_Billing_Ids = new ArrayList<Integer>();
+                            //SQL to obtain a list of acceptable account ID's, put as a list into valid_Ids
+
+                            System.out.println("Please enter an account ID to get a Bank Statement for ");
+                            int acc_to_Id = scan.nextInt();
+
+                            if !(valid_Billing_Ids.contains(acc_to_Id)) { //if the id given isnt a legit id, then break the switch
+                                break;
+                            }
+
+                            //SQL to get the statement at the ID
+
+                        }else if(usertype == "customer"){
+
+                            //SQL to get the statement at the ID logged into as.
+
+                        }
+                        else {
+                            System.out.println("Permission Denied");
+                        }
+
                     case 9:
+                        //Switch account
+                        //employee part
+                        if (usertype == "manager" || usertype == "teller"){
+
+                        System.out.println("Please enter an account ID: ");
+                        int acc_Id = scan.nextInt();
+
+                        if !(valid_Ids.contains(acc_to_Id)) { //if the id given isnt a legit id, then break the switch
+                        break;
+                        }
+
+                        System.out.println("Please enter an account ID to switch to "
+                        int acc_from_id = scan.nextInt();
+
+                        } else if (usertype == "customer") {
+
+                            while (true) {
+                                try {
+                                    for (int i = 0; i < acc; i++) {
+                                        System.out.println(i + 1 + ". " + account_id[i]);
+                                    }
+                                    int userinput = scan.nextInt();
+                                    scan.nextline();
+                                    if (i = 0 || i > account_id.length) {
+                                        throw new Exception("Invalid input, Please try again");
+                                    }
+                                } catch (Exception e) {
+                                    System.out.println(e.getMessage());
+                                }
+                            }
+                        }
+
 
                     case 0:
-
+                        //logout
+                        System.Exit(0);
                     default:
                         throw new Exception("Invalid input, Please try again");
                 }
