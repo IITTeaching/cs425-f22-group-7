@@ -115,14 +115,45 @@ class App{
 
     public Boolean transfer(int account_id, int target_id, int values, boolean external){
         //if external = true, only create the transaction
-        //else update the other account value as well
+        if(external == true) {
+            sql = "Insert into transaction (type, quantity, description, transaction_date, account_from, account_to, status) VALUES ('transfer'," + values + ", 'withdrawal', now()," + account_id + ", 100, '0'); Update account set balance_curr = balance_curr -" + amount + "where account_id =" + account_id + ";";
+            try {
+                connection = DriverManager.getConnection(url, username, password);
+                statement = connection.createStatement();
+                resultSet = statement.executeQuery(sql);
+                return true;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
+            //else update the other account value as well
+        }else{
+            sql = "Insert into transaction (type, quantity, description, transaction_date, account_from, account_to, status) VALUES ('transfer'," + values + ", 'withdrawal', now()," + account_id + ", 100, '0'); Update account set balance_curr = balance_curr -"+amount+"where account_id ="+account_id";";
+            try {
+                connection = DriverManager.getConnection(url, username, password);
+                statement = connection.createStatement();
+                resultSet = statement.executeQuery(sql);
+                return true;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
+            sql = "Update account set balance_curr = balance_curr +"+amount+"where account_id ="+target_id";";
+            try {
+                connection = DriverManager.getConnection(url, username, password);
+                statement = connection.createStatement();
+                resultSet = statement.executeQuery(sql);
+                return true
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
 
-
-        return false;
-    }
+        }
     public Integer checkBalance(int account_id){
         //assume account_id is not null
-        sql = "";
+        sql = "Select balance_curr from account where account_id ="+account_id+";";
         try {
             connection = DriverManager.getConnection(url,username,password);
             //need to point to the specific database and schema
@@ -154,16 +185,58 @@ class App{
 
     public ArrayList<String> checkTransaction(int current_account_id){
         //you need to put every retrieve information in one string to return it
+        sql = "Select * From transaction where account_from='"+current_account_id+"';";
+        try{
+            connection = DriverManager.getConnection(url,username,password);
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(sql);
+            ResultSetMetaData metadata = resultSet.getMetaData();
+            int numberOfColumns = metadata.getColumnCount();
+            ArrayList<Integer> accounts= new ArrayList<Integer>();
+            while (resultSet.next()) {
+                int i = 1;
+                while (i <= numberOfColumns) {
+                    accounts.add(resultSet.getInt(i++));
+                }
+            }
+            return accounts;
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Member not in list!!!");
+        }
         return new ArrayList<>();
     }
 
     public Boolean createAccount(String userName, String account_type){
-
+        sql = "Insert into account(customer_name, account_istype, account_id) VALUES('"+userName+"','"+account_type"');";
+        try{
+            connection = DriverManager.getConnection(url,username,password);
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(sql);
+            return true;
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Member not in list!!!");
+            return false
+        }
         return false;
     }
 
     public Boolean deleteAccount(int account_id){
-
+        sql = "delete from account where account_id="+account_id+";";
+        try{
+            connection = DriverManager.getConnection(url,username,password);
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(sql);
+            return true;
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Member not in list!!!");
+            return false
+        }
         return false;
     }
 
