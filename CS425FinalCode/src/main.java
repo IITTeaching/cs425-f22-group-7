@@ -1,342 +1,484 @@
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.sql.SQLException;
-import java.util.ArrayList;
-
 
 public class main {
     public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
-        String username = null;
-        String password = null;
-        String usertype = null;
-        String userrole = null;
         boolean loginFlag = true;
-        int[] account_id = null;
-        int acc_id = 0; //current account
-        int action = -1;
+        boolean accountFlag = true;
+        boolean menuFlag = true;
+        boolean checkInput = true;
+
+        Scanner input = new Scanner(System.in);
+        int selectRole = 0;
+        //user information
+        String userRole = "";
+        String userName = "";
+        String passCode = "";
+
+        String customer_name = "";
+        boolean isCustomer = false;
+        int current_account_number = 0;
+        ArrayList<Integer> customer_account = new ArrayList<>();
+        int target_account_number = 0;
+        boolean external=false;
+        int modify_values=0;
+        int current_account_balance = 0;
+        int delete_account_id = 0;
+        String account_type = "";
+        ArrayList<String> transaction;
+
+        int menu_selected = 0;
+        boolean menu_ret;
+
+        String[] customer_menu = {"1. Withdrawal","2. Deposit","3. Transfer","4. Current balance","5. Current Month Transaction","9. switch account","0. logout"};
+        String[] teller_menu = {"1.Withdrawal", "2. Deposit", "3. Transfer","9. switch account","0. logout"};
+        String[] manager_menu = {"1. Withdrawal", "2. Deposit", "3. Transfer", "4. Check balance", "5. Current Month Transaction","6.Create account","7.Delete account","9. switch account","0. logout"};
+
+        //end user information
         App app = new App();
-        ResultSet result = null;
-        String withdrawlTrans ;
-        String alterAccount;
-        int remove = 0;
-        int to_Remove_From;
-
-        System.out.println("Welcome to CS425-7 Final Project SQL");
+        //login part
         while(loginFlag) {
-            try {
-                System.out.println("Please enter the username: ");
-                username = scan.nextLine();
-                if(username.isEmpty()){
-                    throw new Exception("Username is Empty");
-                }
-                System.out.println("Please enter the password: ");
-                password = scan.nextLine();
-                if (password.isEmpty()){
-                    throw new Exception("Password is empty");
-                }
-            }catch (Exception e){
-                System.out.println(e.getMessage());
-                System.out.println("Please try again\n");
+            System.out.println("Please select the role: \n" +
+                    "1.customer\n" +
+                    "2.teller\n"+
+                    "3.manager");
+            selectRole = Integer.parseInt(input.nextLine());
+            if (selectRole == 1) {
+                userRole = "customer";
+            } else if (selectRole == 2) {
+                userRole = "employee";
+            }else if(selectRole == 3){
+                userRole = "manager";
             }
-            try{
-                //String sql = "Select username, password IF customer_name ="+username+" password = "+password+"   FROM customer, employee";
-                String sql = "Select customer_name, passcode FROM customer where customer_name="+username+" and passcode="+password+";";
-                result = app.executeSQL(sql);
-                if (!((ResultSet) result).next()){
-                    //if not customer check employee
-                    sql = "Select employee_name, password IF(employee_name =" +username+", (employee_name, password), 0) FROM employee";
-                    result = app.executeSQL(sql);
-                    if (result.getString("employee_name")==null){
-                        throw new SQLException("User does not exist");
-                    }else{
-                        userrole = result.getString("employee_type");
-                        loginFlag = false;
-
-                    }
-                }else{
-                    userrole = "customer";
-                    loginFlag = false;
-
-                }
-            }catch (SQLException s){
-                System.out.println(s.getMessage());
-                System.out.println("Please try again\n");
+            else {
+                userRole = null;
             }
 
+            System.out.println("Please enter your username: ");
+            userName = input.nextLine();
+
+            System.out.println("Please enter your password: ");
+            passCode = input.nextLine();
+
+            boolean login_status = app.login(userName,passCode,userRole);
+            if (login_status == true){
+                loginFlag = false;
+            }else {
+                System.out.println("Username or Password or Role select is incorrect, Please check and try again");
+                System.exit(1);
+            }
+        }//while end
+        System.out.println("Login in Successful!");
 
 
-            //SELECT OrderID, Quantity, IF(Quantity>10, "MORE", "LESS")
-            //FROM OrderDetails;
+        //Account part
+        while(accountFlag){
+            if (userRole == "customer") {
+                //check account
+                customer_name = userName;
+                customer_account = app.checkAccount(customer_name);
+                if (customer_account.size()==0){
+                    System.out.println("We cannot find any account from database!");
+                    System.exit(1);
+                }
+                for (int i = 0; i < customer_account.size(); i++) {
+                    int index = i+1;
+                    System.out.println(index + ". "+customer_account.get(i));
+                }
+            } else if (userRole == "teller" || userRole == "manager") {
+                //getting the customer name who need help
+                System.out.println("Please enter the customer name you are working with: ");
+                customer_name = input.nextLine();
+                //check if in db
+                isCustomer = app.checkCustomer(customer_name);
+                if (isCustomer == false) {
+                    System.out.println("Customer are not in list!!!");
+                    System.exit(1);
+                }
+                //check all the account under this customer
+                customer_account = app.checkAccount(customer_name);
+                if (customer_account.size()==0){
+                    System.out.println("We cannot find any account from database!");
+                    System.exit(1);
+                }
+                for (int i = 0; i < customer_account.size(); i++) {
+                    System.out.println(customer_account.get(i));
+                }
+            }
+            System.out.println("Please select one of the account to continue: ");
+            //pick the account
+            String temp_input = input.nextLine();
+            if (temp_input == null){
+                System.out.println("Please input the valid number!!!");
+                System.exit(1);
+            }
+            int temp = Integer.parseInt(temp_input);
+            temp -= 1;
+            current_account_number = Integer.parseInt(String.valueOf(customer_account.get(temp)));
+            accountFlag =false;
+            break;
         }
+        System.out.println("Here is your Menu!");
 
 
-        //coop with sql return
-        //java part got the type and output the menu
-        //type might be {customer,teller,manager}
-        if (usertype == "customer"){
 
-            //SQL
-            //get all the current user account number and display
-
-            int i = 0;
-            while (true) {
-                try {
-                    if (!result.next()) break;
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-                try {
-                    account_id[i] = Integer.parseInt(result.getString("account_id"));
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            for (int x = 0;x<account_id.length;x++){
-                int temp = x+1;
-                System.out.println(temp+". "+account_id[x]);
-            }
-            System.out.println("Select the account that you want to modify with: ");
-            int userselect = scan.nextInt();
-            acc_id = account_id[userselect-1];
-            scan.nextLine();
-        }
-
-
-        switch (usertype){
-            case "customer":
-                String[] customer_menu = {"1. Withdrawal","2. Deposit","3. Transfer","4. Current balance","5. Current Month Transaction","9. switch account","0. logout"};
+        //menu part
+        while(menuFlag){
+            String temp;
+            if (userRole == "customer"){
                 for (int i=0;i<customer_menu.length;i++){
                     System.out.println(customer_menu[i]);
                 }
-                //scanner that read user input then do the action
+                //1,2,3,4,5,9,0
+                System.out.println("Please select one to continue: ");
+                menu_selected = Integer.parseInt(input.nextLine());
+                switch (menu_selected){
+                    case 1:
+                        //withdrawal
+                        System.out.println("Please enter the amount that you want to withdrawal");
+                        temp = input.nextLine();
+                        if (temp.length() !=0){
+                            modify_values = Integer.parseInt(temp);
+                        } else {
+                            System.out.println("Input invalid!");
+                            break;
+                        }
+                        menu_ret = app.withdrawal(current_account_number,modify_values);
+                        if (menu_ret){
+                            System.out.println("Success!");
+                        } else{
+                            System.out.println("Fail!");
+                        }
+                        break;
+                    case 2:
+                        System.out.println("Please enter the amount that you want to deposit");
+                        temp = input.nextLine();
+                        if (temp.length() !=0){
+                            modify_values = Integer.parseInt(temp);
+                        } else {
+                            System.out.println("Input invalid!");
+                            break;
+                        }
+                        menu_ret = app.deposit(current_account_number,modify_values);
+                        if (menu_ret){
+                            System.out.println("Success!");
+                        } else{
+                            System.out.println("Fail!");
+                        }
+                        break;
+                    case 3:
+                        //target account id
+                        System.out.println("Please enter the account you want to transfer to:");
+                        target_account_number = Integer.parseInt(input.nextLine());
+                        //external
+                        System.out.println("Is "+target_account_number+" is external bank account? y/n");
+                        String temp_y = "y";
+                        String temp_n = "n";
+                        if (temp_y.equalsIgnoreCase(input.nextLine())){
+                            external = true;
+                        } else if(temp_n.equalsIgnoreCase(input.nextLine())){
+                            external = false;
+                        }else{
+                            System.out.println("Invalid input!!!");
+                            break;
+                        }
+                        //value
+                        System.out.println("Please enter the amount that you want to transfer to "+target_account_number+": ");
+                        temp = input.nextLine();
+                        if (temp.length() !=0){
+                            modify_values = Integer.parseInt(temp);
+                        } else {
+                            System.out.println("Input invalid!");
+                            break;
+                        }
 
-                //todo: if user enter 0(logout), do System.exit(0);
-                break;
-            case "teller":
-                String[] teller_menu = {"1.Withdrawal", "2. Deposit", "3. Transfer","9. switch account","0. logout"};
+                        menu_ret = app.transfer(current_account_number,target_account_number,modify_values,external);
+                        if (menu_ret){
+                            System.out.println("Success!");
+                        } else{
+                            System.out.println("Fail!");
+                        }
+                        break;
+                    case 4:
+                        //check balance
+                        current_account_balance = app.checkBalance(current_account_number);
+                        System.out.println("Current account: "+current_account_number+" Balance: "+current_account_balance);
+                        break;
+                    case 5:
+                        //transaction
+                        transaction = app.checkTransaction(current_account_number);
+                        System.out.println("======================================");
+                        for (int i=0;i<transaction.size();i++){
+                            System.out.println(transaction.get(i).toString());
+                        }
+                        System.out.println("======================================");
+                        break;
+                    case 9:
+                        //switch account
+                        customer_account = app.checkAccount(customer_name);
+                        for (int i=0;i<customer_account.size();i++){
+                            int tempi = i+1;
+                            System.out.println(tempi+". "+customer_account.get(i));
+                        }
+                        System.out.println("Please enter the number to continue: ");
+                        temp = input.nextLine();
+                        if (temp.length()==0){
+                            System.out.println("Invalid input");
+                            break;
+                        }
+                        current_account_number = customer_account.get(Integer.parseInt(temp)-1);
+                        break;
+                    case 0:
+                        //end
+                        System.out.println("Thank you for using!\n Good bye!");
+                        System.exit(0);
+                    default:
+                        System.out.println("Invalid input!!!");
+                }
+            }else if (userRole == "teller"){
                 for (int i=0;i<teller_menu.length;i++){
                     System.out.println(teller_menu[i]);
                 }
-            case "manager":
-                String[] manager_menu = {"1. Withdrawal", "2. Deposit", "3. Transfer", "4. Check balance", "5. Current Month Transaction","9. switch account","0. logout"};
+                //1,2,3,9,0
+                System.out.println("Please Select one to continue");
+                menu_selected = Integer.parseInt(input.nextLine());
+                switch (menu_selected) {
+                    case 1:
+                        //withdrawal
+                        System.out.println("Please enter the amount that you want to withdrawal");
+                        temp = input.nextLine();
+                        if (temp.length() !=0){
+                            modify_values = Integer.parseInt(temp);
+                        } else {
+                            System.out.println("Input invalid!");
+                            break;
+                        }
+                        menu_ret = app.withdrawal(current_account_number,modify_values);
+                        if (menu_ret){
+                            System.out.println("Success!");
+                        } else{
+                            System.out.println("Fail!");
+                        }
+                        break;
+                    case 2:
+                        System.out.println("Please enter the amount that you want to deposit:");
+                        temp = input.nextLine();
+                        if (temp.length() !=0){
+                            modify_values = Integer.parseInt(temp);
+                        } else {
+                            System.out.println("Input invalid!");
+                            break;
+                        }
+                        menu_ret = app.deposit(current_account_number,modify_values);
+                        if (menu_ret){
+                            System.out.println("Success!");
+                        } else{
+                            System.out.println("Fail!");
+                        }
+                        break;
+                    case 3:
+                        //Transfer
+                        System.out.println("Please enter the account you want to transfer to:");
+                        target_account_number = Integer.parseInt(input.nextLine());
+                        System.out.println("Is "+target_account_number+" is external bank account? y/n");
+                        String temp_y = "y";
+                        String temp_n = "n";
+                        if (temp_y.equalsIgnoreCase(input.nextLine())){
+                            external = true;
+                        } else if(temp_n.equalsIgnoreCase(input.nextLine())){
+                            external = false;
+                        }else{
+                            System.out.println("Invalid input!!!");
+                            break;
+                        }
+                        System.out.println("Please enter the amount that you want to transfer to "+target_account_number);
+                        modify_values = Integer.parseInt(input.nextLine());
+                        menu_ret = app.transfer(current_account_number,target_account_number,modify_values,external);
+                        if (menu_ret){
+                            System.out.println("Success!");
+                        } else{
+                            System.out.println("Fail!");
+                        }
+                        break;
+                    case 9:
+                        //switch account
+                        customer_account = app.checkAccount(customer_name);
+                        for (int i=0;i<customer_account.size();i++){
+                            int tempi = i+1;
+                            System.out.println(tempi+". "+customer_account.get(i));
+                        }
+                        System.out.println("Please enter the number to continue: ");
+                        temp = input.nextLine();
+                        if (temp.length()==0){
+                            System.out.println("Invalid input");
+                            break;
+                        }
+                        current_account_number = customer_account.get(Integer.parseInt(temp)-1);
+                        break;
+                    case 0:
+                        //end
+                        System.out.println("Thank you for using!\n Good bye!");
+                        System.exit(0);
+                    default:
+                        System.out.println("Invalid input!!!");
+                }
+            }else if(userRole == "manager"){
                 for (int i=0;i<manager_menu.length;i++){
                     System.out.println(manager_menu[i]);
                 }
-        }
-
-        //action
-        //This section assumes that the program already has a verified account Id logged in with the user.
-        //If a customer, then, you should already have been vetted to ensure its an account you really have access to
-
-
-
-
-        while(true) {
-            try {
-                action = scan.nextInt();
-                switch (action) {
-                    //cases 1,2,3,4,5,9,0
-                    case 1: //withdrawal
-                        if (usertype == "customer") {
-                            System.out.println("Please enter an amount to withdrawal ");
-                            remove = scan.nextInt();
-                            withdrawlTrans = "insert into transaction (type, quantity, description, transaction_date, account_from, account_to, status) " +
-                                    "Values ('Withdrawal', " + remove + ", 'Withdrawal of " + remove + " from " + acc_id + "', now(), " + acc_id + ", NULL, '0');";
-                            alterAccount = "Update account" + "set balance_curr = balance_curr - " + remove + "where account_id = " + acc_id + ";";
-                            //SQL to add a new entry to transaction list with the acc_Id and the amount in the correct columns
-                            //additionally, alter the account table with this list to update the balance
+                //1,2,3,4,5,6,7,9,0
+                System.out.println("Please select one to continue");
+                menu_selected = Integer.parseInt(input.nextLine());
+                switch (menu_selected){
+                    case 1:
+                        System.out.println("Please enter the amount that you want to withdrawal");
+                        temp = input.nextLine();
+                        if (temp.length() !=0){
+                            modify_values = Integer.parseInt(temp);
+                        } else {
+                            System.out.println("Input invalid!");
+                            break;
                         }
-                        else{
-                            System.out.println("Please enter an account ID to withdrawal from ");
-                            to_Remove_From = scan.nextInt();
-
-                            System.out.println("Please enter an amount to withdrawal ");
-                            remove = scan.nextInt();
-
-                            withdrawlTrans = "insert into transaction (type, quantity, description, transaction_date, account_from, account_to, status, Values ('Withdrawal', " + remove + ", 'Withdrawl of " + remove + " from " + to_Remove_From + "', now(), " + to_Remove_From + ", NULL, '0');";
-                            alterAccount = "Update account" + "set balance_curr = balance_curr - " + remove + "" + "where account_id = " + to_Remove_From + ";";
-                            //SQL to add a new entry to transaction list with the acc_Id and the amount in the correct columns
-                            //additionally, alter the account table with this list to update the balance
+                        menu_ret = app.withdrawal(current_account_number,modify_values);
+                        if (menu_ret){
+                            System.out.println("Success!");
+                        } else{
+                            System.out.println("Fail!");
                         }
-                        app.executeSQL(withdrawlTrans);
-                        app.executeSQL(alterAccount);
                         break;
                     case 2:
-                        //deposit
-                        if (usertype == "customer") {
-                            System.out.println("Please enter an amount to deposit ");
-                            remove = scan.nextInt();
-
-                            withdrawlTrans = "insert into transaction (type, quantity, description, transaction_date, account_from, account_to, status, Values ('Deposit', " + remove + ", 'Deposit of " + remove + " from " + acc_id + "', now(), NULL, " + acc_id + ", '0');";
-                            alterAccount = "Update account" + "set balance_curr = balance_curr + " + remove + "" + "where account_id = " + acc_id + ";";
-                            //SQL to add a new entry to transaction list with the acc_Id and the amount in the correct columns
-                            //additionally, alter the account table with this list to update the balance
+                        System.out.println("Please enter the amount that you want to deposit");
+                        temp = input.nextLine();
+                        if (temp.length() !=0){
+                            modify_values = Integer.parseInt(temp);
+                        } else {
+                            System.out.println("Input invalid!");
+                            break;
                         }
-                        else {
-                            System.out.println("Please enter an account ID to deposit to ");
-                            to_Remove_From = scan.nextInt();
-
-                            System.out.println("Please enter an amount to deposit ");
-                            remove = scan.nextInt();
-
-                            withdrawlTrans = "insert into transaction (type, quantity, description, transaction_date, account_from, account_to, status, Values ('Deposit', " + remove + ", 'Deposit of " + remove + " from " + to_Remove_From + "', now(), NULL, " + acc_id + ", '0');";
-                            alterAccount = "Update account" + "set balance_curr = balance_curr + " + remove + "" + "where account_id = " + to_Remove_From + ";";
-                            //SQL to add a new entry to transaction list with the acc_Id and the amount in the correct columns
-                            //additionally, alter the account table with this list to update the balance
+                        menu_ret = app.deposit(current_account_number,modify_values);
+                        if (menu_ret){
+                            System.out.println("Success!");
+                        } else{
+                            System.out.println("Fail!");
                         }
-                        app.executeSQL(withdrawlTrans);
-                        app.executeSQL(alterAccount);
                         break;
-
-                        //SQL to add a new entry to transaction list with the acc_Id and the amount in the correct columns
-                        //additionally, alter the account table with this list to update the balance
                     case 3:
-                        //transfer
-                        //sql for account and update database
-                        String transferTrans;
-                        String alterAccount1;
-                        String alterAccount2;
-                        int transBal;
-                        String transferFrom = "";
-                        String transferTo = "";
-                        int transferFrom_id = 0;
-                        int transferTo_id = 0;
-
-                        if (usertype == "manager" || usertype == "teller"){
-
-                            System.out.println("Please enter an account ID to transfer to: ");
-                            transferFrom_id = scan.nextInt();
-
-
-                            System.out.println("Please enter an account ID to transfer from: ");
-                            transferTo_id = scan.nextInt();
-
-
-                            System.out.println("Please enter a transfer amount: ");
-                            transBal = scan.nextInt();
-
-                            transferTrans = "insert into transaction (type, quantity, description, transaction_date, account_from, account_to, status, Values ('Transfer', " + remove + ", 'Transfer from " + transferFrom_id + " to " + transferTo_id + " of quantity" + transBal + "', now(), "+transferFrom+", " + transferTo + ", '0');";
-                            app.executeSQL(transferTrans);
-                            transferFrom = "Update account" + "set balance_curr = balance_curr - " + transBal + "" + "where account_id = " + transferFrom_id + ";";
-                            app.executeSQL(transferFrom);
-                            transferTo = "Update account" + "set balance_curr = balance_curr + " + transBal + "" + "where account_id = " + transferTo_id + ";";
-                            app.executeSQL(transferTo);
-                                //SQL to create the needed transaction entry, and change the account balances involved.
-
+                        System.out.println("Please enter the account you want to transfer to:");
+                        target_account_number = Integer.parseInt(input.nextLine());
+                        System.out.println("Is "+target_account_number+" is external bank account? y/n");
+                        String temp_y = "y";
+                        String temp_n = "n";
+                        if (temp_y.equalsIgnoreCase(input.nextLine())){
+                            external = true;
+                        } else if(temp_n.equalsIgnoreCase(input.nextLine())){
+                            external = false;
+                        }else{
+                            System.out.println("Invalid input!!!");
+                            break;
                         }
-                        else {
-                            System.out.println("Please enter an account ID to transfer to: ");
-                            transferFrom_id = scan.nextInt();
-
-                            System.out.println("Please enter a transfer amount: ");
-                            transBal = scan.nextInt();
-
-                            transferTrans = "insert into transaction (type, quantity, description, transaction_date, account_from, account_to, status, Values ('Transfer', " + remove + ", 'Transfer from " + acc_id + " to " + transferTo + " of quantity" + transBal + "', now(), "+acc_id+", " + transferTo + ", '0');";
-                            app.executeSQL(transferTrans);
-                            transferFrom = "Update account" + "set balance_curr = balance_curr - " + transBal + "" + "where account_id = " + transferFrom_id + ";";
-                            app.executeSQL(transferFrom);
-                            transferTo = "Update account" + "set balance_curr = balance_curr + " + transBal + "" + "where account_id = " + transferTo_id + ";";
-                            app.executeSQL(transferTo);
-                                //SQL to create the needed transaction entry, and change the account balances involved.
-                            //the account from is known by the login
+                        System.out.println("Please enter the amount that you want to transfer to "+target_account_number);
+                        modify_values = Integer.parseInt(input.nextLine());
+                        menu_ret = app.transfer(current_account_number,target_account_number,modify_values,external);
+                        if (menu_ret){
+                            System.out.println("Success!");
+                        } else{
+                            System.out.println("Fail!");
                         }
-
-
-
+                        break;
                     case 4:
-                        //check balance
-                        //employee
-                        if (usertype == "manager"){
-                            System.out.println("Please enter an account ID: ");
-                            int acc_Id = scan.nextInt();
-
-                            ArrayList<Integer> ids = new ArrayList<Integer>();
-                            if (ids.contains(acc_Id)) {
-                                /*amount*/ System.out.println();
-                            }
-
-                        }
-                        else if (usertype=="customer"){
-                            //SQL to get balance for the account that is logged in
-                            //print that result to screen
-                        }
-                        else {
-                            System.out.println("Permission Denied");
-                        }
-
-
+                        current_account_balance = app.checkBalance(current_account_number);
+                        System.out.println("Current account: "+current_account_number+" Balance: "+current_account_balance);
+                        break;
                     case 5:
-                        //Get Statement for an account
-                        if (usertype == "manager"){
-                            ArrayList<Integer> valid_Billing_Ids = new ArrayList<Integer>();
-                            //SQL to obtain a list of acceptable account ID's, put as a list into valid_Ids
-
-                            System.out.println("Please enter an account ID to get a Bank Statement for ");
-                            int acc_to_Id = scan.nextInt();
-
-
-                            if(!(valid_Billing_Ids.contains(acc_to_Id))) { //if the id given isnt a legit id, then break the switch
-                                break;
+                        transaction = app.checkTransaction(current_account_number);
+                        System.out.println("======================================");
+                        for (int i=0;i<transaction.size();i++){
+                            System.out.println(transaction.get(i).toString());
+                        }
+                        System.out.println("======================================");
+                        break;
+                    case 6:
+                        //create account
+                        System.out.println("1. Credit\n"+
+                                "2.Checking\n"+
+                                "Please select the account type: ");
+                        temp = input.nextLine();
+                        if (temp.length()==0){
+                            System.out.println("invalid input");
+                            break;
+                        }
+                        if(Integer.parseInt(temp) == 1){
+                            account_type = "Credit";
+                        } else if(Integer.parseInt(temp)==2){
+                            account_type = "Checking";
+                        }else {
+                            System.out.println("Invalid input");
+                            break;
+                        }
+                        menu_ret = app.createAccount(customer_name, account_type);
+                        if (menu_ret){
+                            System.out.println("Success!");
+                        } else{
+                            System.out.println("Fail!");
+                        }
+                        break;
+                    case 7:
+                        customer_account = app.checkAccount(customer_name);
+                        for (int i=0;i<customer_account.size();i++){
+                            System.out.println("=> "+customer_account.get(i));
+                        }
+                        while(checkInput){
+                            System.out.println("Please enter the account number you need to delete: ");
+                            temp = input.nextLine();
+                            if (temp.length()==0){
+                                System.out.println("Invalid input");
+                                continue;
                             }
-
-                            //SQL to get the statement at the ID
-
-                        }else if(usertype == "customer"){
-
-                            //SQL to get the statement at the ID logged into as.
-
-                        }
-                        else {
-                            System.out.println("Permission Denied");
-                        }
-
-                    case 9:
-                        //Switch account
-                        //employee part
-                        if (usertype == "manager" || usertype == "teller"){
-
-                        System.out.println("Please enter an account ID: ");
-                        int acc_Id = scan.nextInt();
-
-                        System.out.println("Please enter an account ID to switch to ");
-                        int acc_from_id = scan.nextInt();
-
-                        } else if (usertype == "customer") {
-
-                            while (true) {
-                                try {
-                                    int i = 0;
-                                    for (i = 0; i < account_id.length; i++) {
-                                        System.out.println(i + 1 + ". " + account_id[i]);
-                                    }
-                                    int userinput = scan.nextInt();
-                                    scan.nextLine();
-                                    if (userinput == 0 || userinput > account_id.length) {
-                                        throw new Exception("Invalid input, Please try again");
-                                    }
-                                } catch (Exception e) {
-                                    System.out.println(e.getMessage());
+                            delete_account_id = Integer.parseInt(temp);
+                            for (int i=0;i<customer_account.size();i++){
+                                if (delete_account_id == customer_account.get(i)){
+                                    checkInput = false;
+                                    break;
                                 }
                             }
+                            System.out.println("Invalid input number, please re-enter with correct number!");
                         }
-
-
+                        menu_ret = app.deleteAccount(delete_account_id);
+                        if (menu_ret){
+                            System.out.println("Success!");
+                        } else{
+                            System.out.println("Fail!");
+                        }
+                        break;
+                    case 9:
+                        customer_account = app.checkAccount(customer_name);
+                        for (int i=0;i<customer_account.size();i++){
+                            int tempi = i+1;
+                            System.out.println(tempi+". "+customer_account.get(i));
+                        }
+                        System.out.println("Please enter the number to continue: ");
+                        temp = input.nextLine();
+                        if (temp.length()==0){
+                            System.out.println("Invalid input");
+                            break;
+                        }
+                        current_account_number = customer_account.get(Integer.parseInt(temp)-1);
+                        break;
                     case 0:
-                        //logout
+                        //end
+                        System.out.println("Thank you for using!\n Good bye!");
                         System.exit(0);
                     default:
-                        throw new Exception("Invalid input, Please try again");
+                        System.out.println("Invalid input!!!");
                 }
-            }catch(Exception e){
-                System.out.println(e.getMessage());
+            }else{
+                System.out.println("Invalid user role, program end by prevent attack.");
+                System.exit(0);
             }
         }
 
-
-
-
-
-
     }
 }
+
