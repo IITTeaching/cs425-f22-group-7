@@ -100,8 +100,19 @@ class App{
         try{
             connection = DriverManager.getConnection(url,username,password);
             statement = connection.createStatement();
-            resultSet = statement.executeQuery(sql);
-            return true;
+            connection.setAutoCommit(false);
+//            resultSet = statement.executeQuery(sql);
+            statement.addBatch("Insert into transaction (type, quantity, description, transaction_date, account_from, account_to, status) VALUES ('Withdrawal',"+amount+", 'withdrawal', clock_timestamp(),"+account_id+","+account_id+", '0');");
+            statement.addBatch("Update account set balance_curr = balance_curr - "+amount+" where account_id ="+account_id+";");
+            try{
+                statement.executeBatch();
+                connection.commit();
+                return true;
+            }catch (SQLException s){
+                s.printStackTrace();
+                connection.rollback();
+            }
+            return false;
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -110,40 +121,69 @@ class App{
     }
 
     public Boolean deposit(int account_id,int amount){
-
+        try{
+            connection = DriverManager.getConnection(url,username,password);
+            statement = connection.createStatement();
+            connection.setAutoCommit(false);
+            statement.addBatch("Update account set balance_curr = balance_curr +" + amount + "where account_id =" + account_id + ";");
+            statement.addBatch("Insert into transaction (type, quantity, description, transaction_date, account_from, account_to, status) VALUES ('deposit'," + amount + ", 'deposit', clock_timestamp()," + account_id + "," +account_id+", '0');");
+            try{
+                statement.executeBatch();
+                connection.commit();
+                return true;
+            }catch (SQLException s){
+                s.printStackTrace();
+                connection.rollback();
+            }
+            return false;
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
     public Boolean transfer(int account_id, int target_id, int amount, boolean external){
         //if external = true, only create the transaction
         if(external == true) {
-            sql = "Insert into transaction (type, quantity, description, transaction_date, account_from, account_to, status) VALUES ('transfer'," + amount + ", 'withdrawal', now()," + account_id + ", 100, '0'); Update account set balance_curr = balance_curr -" + amount + "where account_id =" + account_id + ";";
+
             try {
                 connection = DriverManager.getConnection(url, username, password);
                 statement = connection.createStatement();
-                resultSet = statement.executeQuery(sql);
-                return true;
+                connection.setAutoCommit(false);
+                statement.addBatch("Insert into transaction (type, quantity, description, transaction_date, account_from, account_to, status) VALUES ('transfer'," + amount + ", 'withdrawal', clock_timestamp()," + account_id + "," +target_id+", '0');");
+                statement.addBatch("Update account set balance_curr = balance_curr -" + amount + "where account_id =" + account_id + ";");
+                try{
+                    statement.executeBatch();
+                    connection.commit();
+                    return true;
+                }catch (SQLException s){
+                    s.printStackTrace();
+                    connection.rollback();
+                }
+                return false;
             } catch (SQLException e) {
                 e.printStackTrace();
                 return false;
             }
             //else update the other account value as well
         }else{
-            sql = "Insert into transaction (type, quantity, description, transaction_date, account_from, account_to, status) VALUES ('transfer'," + amount + ", 'withdrawal', now()," + account_id + ", 100, '0'); Update account set balance_curr = balance_curr -"+amount+"where account_id ="+account_id+";";
             try {
                 connection = DriverManager.getConnection(url, username, password);
                 statement = connection.createStatement();
-                resultSet = statement.executeQuery(sql);
-            } catch (SQLException e) {
-                e.printStackTrace();
+                connection.setAutoCommit(false);
+                statement.addBatch("Insert into transaction (type, quantity, description, transaction_date, account_from, account_to, status) VALUES ('transfer'," + amount + ", 'withdrawal', clock_timestamp()," + account_id + ","+target_id+ ", '0');");
+                statement.addBatch("Update account set balance_curr = balance_curr -"+amount+"where account_id ="+account_id+";");
+                statement.addBatch("Update account set balance_curr = balance_curr +"+amount+"where account_id ="+target_id+";");
+                try{
+                    statement.executeBatch();
+                    connection.commit();
+                    return true;
+                }catch (SQLException s){
+                    s.printStackTrace();
+                    connection.rollback();
+                }
                 return false;
-            }
-            sql = "Update account set balance_curr = balance_curr +"+amount+"where account_id ="+target_id+";";
-            try {
-                connection = DriverManager.getConnection(url, username, password);
-                statement = connection.createStatement();
-                resultSet = statement.executeQuery(sql);
-                return true;
             } catch (SQLException e) {
                 e.printStackTrace();
                 return false;
@@ -192,11 +232,11 @@ class App{
             resultSet = statement.executeQuery(sql);
             ResultSetMetaData metadata = resultSet.getMetaData();
             int numberOfColumns = metadata.getColumnCount();
-            ArrayList<Integer> accounts= new ArrayList<Integer>();
+            ArrayList<String> accounts= new ArrayList<String>();
             while (resultSet.next()) {
                 int i = 1;
                 while (i <= numberOfColumns) {
-                    accounts.add(resultSet.getInt(i++));
+                    accounts.add(resultSet.getString(i++));
                 }
             }
             return accounts;

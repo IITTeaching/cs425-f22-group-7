@@ -128,6 +128,7 @@ public class main {
         while(menuFlag){
             String temp;
             int tempi;
+            System.out.println("Current Account: "+current_account_number);
             if (userRole == "customer"){
                 for (int i=0;i<customer_menu.length;i++){
                     System.out.println(customer_menu[i]);
