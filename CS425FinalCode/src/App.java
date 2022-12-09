@@ -110,13 +110,14 @@ class App{
     }
 
     public Boolean deposit(int account_id,int amount){
+
         return false;
     }
 
-    public Boolean transfer(int account_id, int target_id, int values, boolean external){
+    public Boolean transfer(int account_id, int target_id, int amount, boolean external){
         //if external = true, only create the transaction
         if(external == true) {
-            sql = "Insert into transaction (type, quantity, description, transaction_date, account_from, account_to, status) VALUES ('transfer'," + values + ", 'withdrawal', now()," + account_id + ", 100, '0'); Update account set balance_curr = balance_curr -" + amount + "where account_id =" + account_id + ";";
+            sql = "Insert into transaction (type, quantity, description, transaction_date, account_from, account_to, status) VALUES ('transfer'," + amount + ", 'withdrawal', now()," + account_id + ", 100, '0'); Update account set balance_curr = balance_curr -" + amount + "where account_id =" + account_id + ";";
             try {
                 connection = DriverManager.getConnection(url, username, password);
                 statement = connection.createStatement();
@@ -128,22 +129,21 @@ class App{
             }
             //else update the other account value as well
         }else{
-            sql = "Insert into transaction (type, quantity, description, transaction_date, account_from, account_to, status) VALUES ('transfer'," + values + ", 'withdrawal', now()," + account_id + ", 100, '0'); Update account set balance_curr = balance_curr -"+amount+"where account_id ="+account_id";";
+            sql = "Insert into transaction (type, quantity, description, transaction_date, account_from, account_to, status) VALUES ('transfer'," + amount + ", 'withdrawal', now()," + account_id + ", 100, '0'); Update account set balance_curr = balance_curr -"+amount+"where account_id ="+account_id+";";
+            try {
+                connection = DriverManager.getConnection(url, username, password);
+                statement = connection.createStatement();
+                resultSet = statement.executeQuery(sql);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
+            sql = "Update account set balance_curr = balance_curr +"+amount+"where account_id ="+target_id+";";
             try {
                 connection = DriverManager.getConnection(url, username, password);
                 statement = connection.createStatement();
                 resultSet = statement.executeQuery(sql);
                 return true;
-            } catch (SQLException e) {
-                e.printStackTrace();
-                return false;
-            }
-            sql = "Update account set balance_curr = balance_curr +"+amount+"where account_id ="+target_id";";
-            try {
-                connection = DriverManager.getConnection(url, username, password);
-                statement = connection.createStatement();
-                resultSet = statement.executeQuery(sql);
-                return true
             } catch (SQLException e) {
                 e.printStackTrace();
                 return false;
@@ -209,7 +209,7 @@ class App{
     }
 
     public Boolean createAccount(String userName, String account_type){
-        sql = "Insert into account(customer_name, account_istype, account_id) VALUES('"+userName+"','"+account_type"');";
+        sql = "Insert into account(customer_name, account_istype, account_id) VALUES('"+userName+"','"+account_type+"');";
         try{
             connection = DriverManager.getConnection(url,username,password);
             statement = connection.createStatement();
@@ -219,7 +219,6 @@ class App{
         catch (SQLException e) {
             e.printStackTrace();
             System.out.println("Member not in list!!!");
-            return false
         }
         return false;
     }
@@ -235,7 +234,6 @@ class App{
         catch (SQLException e) {
             e.printStackTrace();
             System.out.println("Member not in list!!!");
-            return false
         }
         return false;
     }
