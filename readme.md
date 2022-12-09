@@ -10,7 +10,7 @@ Luke Leonard<br />
 <p>This is our final project for CS425 Database Organization. In this project we sought to create a primative functional banking system utilizing postgresql and a java application. After designing and implementing a SQL database schema this application has been developed to allow a user to log in to different accounts at a theoretical bank, supported on the back end by our database, and create and execute transactions.</p>
 
 <p>===========================</p>
-<h4>Available Tools:</h4>
+<h6>Available Tools:</h6>
 <p>In this program, the following functions are available depending on the account you are logged in as:</p>
 <p>Withdrawl - allows a user to withdrawl funds from an account. If logged in as a customer, you should not be allowed to withdrawl from accounts you do not own.</p>
 <p>Deposit - allows a user to deposit funds into an account. Deposits may be done by any user, but a customer should not have access to accounts they dont own</p>
@@ -22,7 +22,7 @@ Luke Leonard<br />
 <p>Additional functionalities such as logging out are supported.</p>
 
 <p>===========================</p>
-<h4>Additional Notes</h4>
+<h6>Additional Notes</h6>
 <p>-Please download the Entity-Relationship Model to view the full diagram.</p>
 <p></p>
 <p></p>
