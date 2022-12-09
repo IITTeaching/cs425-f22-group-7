@@ -127,6 +127,7 @@ public class main {
         //menu part
         while(menuFlag){
             String temp;
+            int tempi;
             if (userRole == "customer"){
                 for (int i=0;i<customer_menu.length;i++){
                     System.out.println(customer_menu[i]);
@@ -172,28 +173,23 @@ public class main {
                         //target account id
                         System.out.println("Please enter the account you want to transfer to:");
                         target_account_number = Integer.parseInt(input.nextLine());
-                        //external
-                        System.out.println("Is "+target_account_number+" is external bank account? y/n");
-                        String temp_y = "y";
-                        String temp_n = "n";
-                        if (temp_y.equalsIgnoreCase(input.nextLine())){
+                        System.out.println("Is "+target_account_number+" is external bank account?\n 1 = yes\n 0 = no");
+                        temp = input.nextLine();
+                        if (temp.length()==0){
+                            System.out.println("Invalid input");
+                            break;
+                        }
+                        tempi = Integer.parseInt(temp);
+                        if (tempi == 1){
                             external = true;
-                        } else if(temp_n.equalsIgnoreCase(input.nextLine())){
+                        }else if(tempi == 0){
                             external = false;
                         }else{
-                            System.out.println("Invalid input!!!");
+                            System.out.println("Invalid input");
                             break;
                         }
-                        //value
-                        System.out.println("Please enter the amount that you want to transfer to "+target_account_number+": ");
-                        temp = input.nextLine();
-                        if (temp.length() !=0){
-                            modify_values = Integer.parseInt(temp);
-                        } else {
-                            System.out.println("Input invalid!");
-                            break;
-                        }
-
+                        System.out.println("Please enter the amount that you want to transfer to "+target_account_number);
+                        modify_values = Integer.parseInt(input.nextLine());
                         menu_ret = app.transfer(current_account_number,target_account_number,modify_values,external);
                         if (menu_ret){
                             System.out.println("Success!");
@@ -219,7 +215,7 @@ public class main {
                         //switch account
                         customer_account = app.checkAccount(customer_name);
                         for (int i=0;i<customer_account.size();i++){
-                            int tempi = i+1;
+                            tempi = i+1;
                             System.out.println(tempi+". "+customer_account.get(i));
                         }
                         System.out.println("Please enter the number to continue: ");
@@ -282,15 +278,19 @@ public class main {
                         //Transfer
                         System.out.println("Please enter the account you want to transfer to:");
                         target_account_number = Integer.parseInt(input.nextLine());
-                        System.out.println("Is "+target_account_number+" is external bank account? y/n");
-                        String temp_y = "y";
-                        String temp_n = "n";
-                        if (temp_y.equalsIgnoreCase(input.nextLine())){
+                        System.out.println("Is "+target_account_number+" is external bank account?\n 1 = yes\n 0 = no");
+                        temp = input.nextLine();
+                        if (temp.length()==0){
+                            System.out.println("Invalid input");
+                            break;
+                        }
+                        tempi = Integer.parseInt(temp);
+                        if (tempi == 1){
                             external = true;
-                        } else if(temp_n.equalsIgnoreCase(input.nextLine())){
+                        }else if(tempi == 0){
                             external = false;
                         }else{
-                            System.out.println("Invalid input!!!");
+                            System.out.println("Invalid input");
                             break;
                         }
                         System.out.println("Please enter the amount that you want to transfer to "+target_account_number);
@@ -306,7 +306,7 @@ public class main {
                         //switch account
                         customer_account = app.checkAccount(customer_name);
                         for (int i=0;i<customer_account.size();i++){
-                            int tempi = i+1;
+                            tempi = i+1;
                             System.out.println(tempi+". "+customer_account.get(i));
                         }
                         System.out.println("Please enter the number to continue: ");
@@ -367,15 +367,19 @@ public class main {
                     case 3:
                         System.out.println("Please enter the account you want to transfer to:");
                         target_account_number = Integer.parseInt(input.nextLine());
-                        System.out.println("Is "+target_account_number+" is external bank account? y/n");
-                        String temp_y = "y";
-                        String temp_n = "n";
-                        if (temp_y.equalsIgnoreCase(input.nextLine())){
+                        System.out.println("Is "+target_account_number+" is external bank account?\n 1 = yes\n 0 = no");
+                        temp = input.nextLine();
+                        if (temp.length()==0){
+                            System.out.println("Invalid input");
+                            break;
+                        }
+                        tempi = Integer.parseInt(temp);
+                        if (tempi == 1){
                             external = true;
-                        } else if(temp_n.equalsIgnoreCase(input.nextLine())){
+                        }else if(tempi == 0){
                             external = false;
                         }else{
-                            System.out.println("Invalid input!!!");
+                            System.out.println("Invalid input");
                             break;
                         }
                         System.out.println("Please enter the amount that you want to transfer to "+target_account_number);
@@ -455,7 +459,7 @@ public class main {
                     case 9:
                         customer_account = app.checkAccount(customer_name);
                         for (int i=0;i<customer_account.size();i++){
-                            int tempi = i+1;
+                            tempi = i+1;
                             System.out.println(tempi+". "+customer_account.get(i));
                         }
                         System.out.println("Please enter the number to continue: ");
