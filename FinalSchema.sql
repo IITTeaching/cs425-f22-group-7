@@ -43,7 +43,7 @@ create table if not exists transaction(
                                           type varchar(255),
                                           quantity integer,
                                           description varchar(255),
-                                          transaction_date date,
+                                          transaction_date TIMESTAMP,
                                           account_from integer,
                                           account_to integer,
                                           status bit,

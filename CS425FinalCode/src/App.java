@@ -53,7 +53,7 @@ class App{
     }
     //I already test the login, it's work, don't touch inside anything  -- JC
 
-    public Boolean checkCustomer(String userName) {
+    public Boolean checkCustomer(String userName) { //checked
         if (userName == null){
             return false;
         }
@@ -70,7 +70,7 @@ class App{
         return false;
     }
 
-    public ArrayList<Integer> checkAccount(String userName){
+    public ArrayList<Integer> checkAccount(String userName){ //checked
         // assume userName exist
         sql = "Select account_id From account where customer_name ='"+userName+"';"; //sql return all the account number into one String[]
         try{
@@ -96,7 +96,7 @@ class App{
     }
 
     public Boolean withdrawal(int account_id,int amount){
-        sql = "Insert into transaction (type, quantity, description, transaction_date, account_from, account_to, status) VALUES ('Withdrawal',"+amount+", 'withdrawal', now(),"+account_id+", 100, '0'); Update account set balance_curr = balance_curr - "+amount+" nwhere account_id ="+account_id+";";
+        sql = "Insert into transaction (type, quantity, description, transaction_date, account_from, account_to, status) VALUES ('Withdrawal',"+amount+", 'withdrawal', current_timestamp(),"+account_id+", 100, '0'); Update account set balance_curr = balance_curr - "+amount+" where account_id ="+account_id+";";
         try{
             connection = DriverManager.getConnection(url,username,password);
             statement = connection.createStatement();
@@ -199,6 +199,17 @@ class App{
             //need to point to the specific database and schema
             statement = connection.createStatement();
             resultSet = statement.executeQuery(sql);
+            ResultSetMetaData metadata = resultSet.getMetaData();
+            int numberOfColumns = metadata.getColumnCount();
+            ArrayList<Integer> accounts= new ArrayList<Integer>();
+            while (resultSet.next()) {
+                int i = 1;
+                while (i <= numberOfColumns) {
+                    accounts.add(resultSet.getInt(i++));
+                }
+                return accounts.get(0);
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("Denied!!!");
